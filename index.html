@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>SPARTA HMIF 2016</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="manifest.json">
+    <!-- SCRIPT -->
+    <script src="js/jquery-2.0.0.js"></script>
+</head>
+<body>
+<div class="bg-img"></div>
+<div class="web-form">
+    <div class="title-bar">
+        <div class="title">
+            SPARTA HMIF 2016
+        </div>
+        <div class="subtitle">
+            Daftar Hadir Panitia
+        </div>
+    </div>
+    <div style="padding-top:20px; padding-left:10px; padding-right:8px;">
+        <hr style="color:white; border:solid white 1px;">
+    </div>
+    <div class="form-content">
+        <form id="formsparta" method="post" action="https://script.google.com/macros/s/AKfycbzm86NyxoZ270YbGUl3GlnNNQzl5hR1V_8YFs5jV95kp3QwWxc/exec">
+            <div class="input-2">
+                <div class="user">
+                    <div class="form-field">
+                        NIM
+                    </div>
+                    <div class="form-select">
+                        <input type="text" id="user" name="nim"
+                               pattern="(135|182)15([0-1][0-9][0-9]|4[0-1][0-9]|42[0-8])"
+                               oninvalid="this.setCustomValidity('Invalid NIM')" oninput="this.setCustomValidity('')"
+                               placeholder="NIM" required>
+                    </div>
+                </div>
+                <div class="no-int">
+                    <div class="form-field">
+                        No Interaksi
+                    </div>
+                    <div class="form-select">
+                        <select id="no-int" name="no-int" required>
+                            <option value="INTERAKSI01">1</option>
+                            <option value="INTERAKSI02">2</option>
+                            <option value="INTERAKSI03">3</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+            <div class="input-1">
+                <select name="kehadiran" id="kehadiran" required>
+                    <option value="Hadir" selected="selected">Hadir Full</option>
+                    <option value="Parsial">Hadir Sebagian</option>
+                    <option value="Tidak Hadir">Tidak Hadir</option>
+                </select>
+            </div>
+            <div id="parsial" class="input-1">
+                <div><input type="checkbox" name="Terlambat" id="terlambat">Terlambat</div>
+                <div id="terlambat-form">
+                    <div class="form-field">
+                        Jam Kedatangan <div class="guide">(Format 24 Jam; 17 = jam 5)</div>
+                    </div>
+                    <div class="form-select">
+                        <input type="number" name="jamdatang" id="jamdatang" placeholder="Jam Kedatangan">
+                    </div>
+                </div>
+
+                <div><input type="checkbox" name="Pulang Duluan" id="pulangawal">Pulang awal</div>
+                <div id="pulangawal-form">
+                    <div class="form-field">
+                        Jam Pergi <div class="guide">(Format 24 Jam; 17 = jam 5)</div>
+                    </div>
+                    <div class="form-select">
+                        <input type="number" name="jampergi" id="jampergi" placeholder="Jam Pergi">
+                    </div>
+                </div>
+            </div>
+            <div id="tidakhadir" class="input-1">
+                <div id="tidakhadir-form">
+                    <div class="form-field">
+                        Alasan Tidak Hadir
+                    </div>
+                    <div class="form-select">
+                        <textarea id="alasan" name="alasan" placeholder="Alasan ketidakhadiran"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="input-button"><input type="submit" value="Submit"></div>
+        </form>
+        <div id="thankyou" style="display:none; color:#FFF">
+            Terimakasih sudah mengisi daftar hadir~
+        </div>
+        <script data-cfasync="false" type="text/javascript" src="js/submit.js"></script>
+    </div>
+</div>
+
+<!-- SCRIPT -->
+<script>
+    $(document).ready(function (e) {
+        $("#parsial").hide();
+        $("#pulangawal-form").hide();
+        $("#terlambat-form").hide();
+        $("#tidakhadir").hide();
+    });
+
+    $("#kehadiran").click(function () {
+        //Hide Parsial
+        $("#parsial").hide();
+        $("#pulangawal")[0].checked = false;
+        $("#terlambat")[0].checked = false;
+        $("#pulangawal-form").hide();
+        $("#pulangawal-form input").attr("required",false);
+        $("#pulangawal-form input").val("");
+        $("#terlambat-form").hide();
+        $("#terlambat-form input").val("");
+        $("#terlambat-form input").attr("required", false);
+
+        //Hide Tidak Hadir
+        $("#tidakhadir").hide();
+        $("#tidakhadir textarea").val("");
+        $("#tidakhadir textarea").attr("required", false);
+
+        if ($("#kehadiran").val() == "Parsial") {
+            $("#parsial").show();
+        }
+        else if ($("#kehadiran").val() == "Tidak Hadir") {
+            $("#tidakhadir").show();
+            $("#tidakhadir textarea").attr("required", true);
+        }
+    });
+
+    $("#terlambat").click(function () {
+        if ($("#terlambat")[0].checked) {
+            $("#terlambat-form").show();
+            $("#terlambat-form input").attr("required", true);
+        }
+        else {
+            $("#terlambat-form").hide();
+            $("#terlambat-form input").val("");
+            $("#terlambat-form input").attr("required", false);
+        }
+    });
+
+    $("#pulangawal").click(function () {
+        if ($("#pulangawal")[0].checked) {
+            $("#pulangawal-form").show();
+            $("#pulangawal-form input").attr("required", true);
+        }
+        else {
+            $("#pulangawal-form").hide();
+            $("#pulangawal-form input").val("");
+            $("#pulangawal-form input").attr("required", false);
+        }
+    });
+</script>
+<!-- SCRIPT END -->
+</body>
+</html>
